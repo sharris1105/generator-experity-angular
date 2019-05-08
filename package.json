@@ -1,0 +1,15 @@
+{
+  "name": "generator-experity-angular",
+  "version": "1.0.0",
+  "description": "Experity Angular app template",
+  "files": [
+    "generators"
+  ],
+  "keywords": [
+    "yeoman-generator"
+  ],
+  "dependencies": {
+    "yeoman-generator": "^1.1.1"
+  },
+  "author": "Chris Bell"
+}
