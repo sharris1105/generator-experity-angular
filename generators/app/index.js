@@ -19,6 +19,18 @@ module.exports = class extends Generator {
 
   writing() {
     this.fs.copyTpl(
+      this.templatePath('./.vs2017/AppTemplate.csproj'),
+      this.destinationPath(`./${this.answers.name}.csproj`),
+      { appName: this.answers.name }
+    );
+
+    this.fs.copyTpl(
+      this.templatePath('./.vs2017/AppTemplate.sln'),
+      this.destinationPath(`./${this.answers.name}.sln`),
+      { appName: this.answers.name }
+    );
+
+    this.fs.copyTpl(
       this.templatePath('./'),
       this.destinationRoot(),
       { appName: this.answers.name }
