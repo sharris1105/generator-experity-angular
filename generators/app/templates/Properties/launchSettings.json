@@ -15,7 +15,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "PV.MyDashboard.App": {
+    "<%= appName %>": {
       "commandName": "Project",
       "launchBrowser": true,
       "environmentVariables": {
