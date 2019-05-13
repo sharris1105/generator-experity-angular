@@ -4,6 +4,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
+    "start:proxy": "ng serve -o --proxy-config proxy.config.json",
     "build": "ng build",
     "build:ssr": "ng run <%= appName %>:server:dev",
     "test": "ng test",
@@ -24,7 +25,7 @@
     "@angular/router": "6.1.10",
     "@nguniversal/module-map-ngfactory-loader": "6.0.0",
     "core-js": "^2.5.4",
-    "rxjs": "^6.0.0",
+    "rxjs": "6.0.0",
     "zone.js": "^0.8.26"
   },
   "devDependencies": {

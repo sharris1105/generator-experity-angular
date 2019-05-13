@@ -85,21 +85,21 @@ module.exports = class extends Generator {
         message: "App name (default in parentheses):",
         default: this.appname
       },
-      // {
-      //   type: "list",
-      //   name: "ui-framework",
-      //   message: "Select UI framework",
-      //   choices: [
-      //     "Angular Material",
-      //     "DevExtreme"
-      //   ]
-      // },
-      // {
-      //   type: "confirm",
-      //   name: "include-auth",
-      //   message: "Include Authentication?",
-      //   default: true
-      // }
+      {
+        type: "list",
+        name: "uiFramework",
+        message: "Select UI framework",
+        choices: [
+          "Angular Material",
+          "DevExtreme"
+        ]
+      },
+      {
+        type: "confirm",
+        name: "includeAuth",
+        message: "Include Authentication?",
+        default: true
+      }
     ]);
   }
 
@@ -132,9 +132,9 @@ module.exports = class extends Generator {
     this.setUpVsCodeFiles();
   }
 
-  // install() {
-  //   this.npmInstall();
-  // }
-
-
+  install() {
+    this.spawnCommand('npm', ['install'], { cwd: './ClientApp' });
+    this.spawnCommand('dotnet', ['build']);
+    this.spawnCommand('code', ['.']);
+  }
 };
