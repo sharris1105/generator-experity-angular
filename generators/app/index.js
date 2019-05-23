@@ -16,6 +16,41 @@ module.exports = class extends Generator {
         "version": "0.2.0",
         "configurations": [
           {
+            "name": ".NET Core Launch (web)",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build",
+            // If you have changed target frameworks, make sure to update the program path.
+            "program": `\${workspaceFolder}/bin/Debug/netcoreapp2.2/${this.answers.name}.dll`,
+            "args": [],
+            "cwd": "${workspaceFolder}",
+            "stopAtEntry": false,
+            "internalConsoleOptions": "neverOpen",
+            "launchBrowser": {
+              "enabled": true,
+              "args": "${auto-detect-url}",
+              "windows": {
+                "command": "cmd.exe",
+                "args": "/C start ${auto-detect-url}"
+              },
+              "osx": {
+                "command": "open"
+              },
+              "linux": {
+                "command": "xdg-open"
+              }
+            },
+            "env": {
+              "ASPNETCORE_ENVIRONMENT": "Development",
+              "EncryptionPublicKey": "",
+              "KeyFilePath": "",
+              "PathBase": ""
+            },
+            "sourceFileMap": {
+              "/Views": "${workspaceFolder}/Views"
+            }
+          },
+          {
             "name": ".NET Core Launch (silent)",
             "type": "coreclr",
             "request": "launch",
@@ -82,7 +117,7 @@ module.exports = class extends Generator {
       {
         type: "input",
         name: "name",
-        message: "App name (default in parentheses):",
+        message: "App name:",
         default: this.appname
       },
       {
@@ -99,7 +134,16 @@ module.exports = class extends Generator {
         name: "includeAuth",
         message: "Include Authentication?",
         default: true
-      }
+      },
+      {
+        type: "list",
+        name: "ide",
+        message: "Select IDE (you can switch later)",
+        choices: [
+          "VS Code",
+          "Visual Studio"
+        ]
+      },
     ]);
   }
 
@@ -133,8 +177,9 @@ module.exports = class extends Generator {
   }
 
   install() {
-    this.spawnCommand('npm', ['install'], { cwd: './ClientApp' });
-    this.spawnCommand('dotnet', ['build']);
-    this.spawnCommand('code', ['.']);
+    this.spawnCommandSync('dotnet', ['build']);
+    this.spawnCommandSync('npm', ['install'], { cwd: './ClientApp' });
+    this.spawnCommandSync('ng', ['build'], { cwd: './ClientApp' });
+    this.spawnCommandSync('code', ['.']);
   }
 };
