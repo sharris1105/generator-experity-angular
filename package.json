@@ -9,7 +9,7 @@
     "yeoman-generator"
   ],
   "dependencies": {
-    "yeoman-generator": "^1.1.1"
-  },
-  "author": "Chris Bell"
+    "yeoman-generator": "^3.0.0",
+    "yosay": "^2.0.2"
+  }
 }

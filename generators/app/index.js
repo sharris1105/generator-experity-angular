@@ -1,4 +1,5 @@
-var Generator = require('yeoman-generator');
+const Generator = require('yeoman-generator');
+const yosay = require('yosay');
 
 module.exports = class extends Generator {
   constructor(args, opts) {
@@ -11,108 +12,11 @@ module.exports = class extends Generator {
         this.destinationPath('./.vscode/'),
         { appName: this.answers.name }
       );
-
-      const launchJson = {
-        "version": "0.2.0",
-        "configurations": [
-          {
-            "name": ".NET Core Launch (web)",
-            "type": "coreclr",
-            "request": "launch",
-            "preLaunchTask": "build",
-            // If you have changed target frameworks, make sure to update the program path.
-            "program": `\${workspaceFolder}/bin/Debug/netcoreapp2.2/${this.answers.name}.dll`,
-            "args": [],
-            "cwd": "${workspaceFolder}",
-            "stopAtEntry": false,
-            "internalConsoleOptions": "neverOpen",
-            "launchBrowser": {
-              "enabled": true,
-              "args": "${auto-detect-url}",
-              "windows": {
-                "command": "cmd.exe",
-                "args": "/C start ${auto-detect-url}"
-              },
-              "osx": {
-                "command": "open"
-              },
-              "linux": {
-                "command": "xdg-open"
-              }
-            },
-            "env": {
-              "ASPNETCORE_ENVIRONMENT": "Development",
-              "EncryptionPublicKey": "",
-              "KeyFilePath": "",
-              "PathBase": ""
-            },
-            "sourceFileMap": {
-              "/Views": "${workspaceFolder}/Views"
-            }
-          },
-          {
-            "name": ".NET Core Launch (silent)",
-            "type": "coreclr",
-            "request": "launch",
-            "preLaunchTask": "build",
-            "program": `\${workspaceFolder}/bin/Debug/netcoreapp2.2/${this.answers.name}.dll`,
-            "args": [],
-            "cwd": "${workspaceFolder}",
-            "stopAtEntry": false,
-            "internalConsoleOptions": "neverOpen",
-            "launchBrowser": {
-              "enabled": false,
-              "args": "${auto-detect-url}",
-              "windows": {
-                "command": "cmd.exe",
-                "args": "/C start ${auto-detect-url}"
-              },
-              "osx": {
-                "command": "open"
-              },
-              "linux": {
-                "command": "xdg-open"
-              }
-            },
-            "env": {
-              "ASPNETCORE_ENVIRONMENT": "Development",
-              "EncryptionPublicKey": "",
-              "KeyFilePath": "",
-              "PathBase": ""
-            },
-            "sourceFileMap": {
-              "/Views": "${workspaceFolder}/Views"
-            }
-          }
-        ]
-      }
-
-      const tasksJson = {
-        "version": "2.0.0",
-        "tasks": [
-          {
-            "label": "build",
-            "command": "dotnet",
-            "type": "process",
-            "args": [
-              "build",
-              `\${workspaceFolder}/${this.answers.name}.csproj`
-            ],
-            "problemMatcher": "$msCompile",
-            "presentation": {
-              "echo": false,
-              "reveal": "silent"
-            }
-          }
-        ]
-      }
-
-      this.fs.extendJSON(this.destinationPath('./.vscode/launch.json'), launchJson);
-      this.fs.extendJSON(this.destinationPath('./.vscode/tasks.json'), tasksJson);
     }
   }
 
   async prompting() {
+    this.log(yosay('Welcome to the Experity Angular App Generator'));
     this.answers = await this.prompt([
       {
         type: "input",
