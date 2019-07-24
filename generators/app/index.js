@@ -109,7 +109,7 @@ module.exports = class extends Generator {
     do {
       formattedName = await this.promptUntilValidName();
       formattingOk = await this.isFormattingOk(formattedName);
-    } while (formattingOk === false);
+    } while (!formattingOk);
   }
 
   writing() {
