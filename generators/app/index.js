@@ -1,6 +1,8 @@
 const Generator = require('yeoman-generator');
 const yosay = require('yosay');
 
+// * yeoman docs can be found here https://yeoman.github.io/generator/index.html
+
 module.exports = class extends Generator {
   constructor(args, opts) {
     // Calling the super constructor is important so our generator is correctly set up
@@ -24,8 +26,7 @@ module.exports = class extends Generator {
           {
             type: "input",
             name: "appName",
-            message: "App name (default in parentheses):",
-            default: this.appname
+            message: "Enter a name for your new app:"
           }
         ]);
 
@@ -79,7 +80,12 @@ module.exports = class extends Generator {
     }
 
     this.formatAppName = function (appName) {
+      // remove spaces
       appName = appName.split(' ').join('-');
+
+      // convert from camelCase/PascalCase to kebab-case.
+      // * lifted from https://gist.github.com/nblackburn/875e6ff75bc8ce171c758bf75f304707
+      appName = appName.replace(/([a-z0-9])([A-Z])/g, '$1-$2');
 
       // as of 7/2019, this is our naming standard
       if (!appName.endsWith('--ui')) {
@@ -87,14 +93,6 @@ module.exports = class extends Generator {
       }
 
       return appName.toLowerCase();
-    }
-
-    this.setUpVsCodeFiles = function () {
-      this.fs.copy(
-        this.templatePath('./.vscode/'),
-        this.destinationPath('./.vscode/'),
-        { appName: this.answers.appName }
-      );
     }
 
     // ! end helper functions
@@ -110,30 +108,36 @@ module.exports = class extends Generator {
       formattedName = await this.promptUntilValidName();
       formattingOk = await this.isFormattingOk(formattedName);
     } while (!formattingOk);
+
+    this.answers.appName = formattedName;
   }
 
   writing() {
+    this.fs.copyTpl(
+      this.sourceRoot(),
+      this.destinationPath(`${this.answers.appName}`),
+      { appName: this.answers.appName }
+    );
 
-    // this.fs.copyTpl(
-    //   this.sourceRoot(),
-    //   this.destinationRoot(),
-    //   { appName: this.answers.appName }
-    // );
+    // Copy all dotfiles
+    this.fs.copy(
+      this.templatePath('./.*'),
+      this.destinationPath(`${this.answers.appName}`),
+      { appName: this.answers.appName }
+    );
 
-    // // Copy all dotfiles
-    // this.fs.copy(
-    //   this.templatePath('./.*'),
-    //   this.destinationRoot(),
-    //   { appName: this.answers.appName }
-    // );
-
-    // this.setUpVsCodeFiles();
+    // For some reason, the .vscode files don't copy unless you do it explicitly. Probably user error but code below works
+    this.fs.copy(
+      this.templatePath('./.vscode/'),
+      this.destinationPath(`${this.answers.appName}/.vscode/`)
+    );
   }
 
   install() {
-    // this.spawnCommandSync('dotnet', ['build']);
-    // this.spawnCommandSync('npm', ['install'], { cwd: './ClientApp' });
-    // this.spawnCommandSync('ng', ['build'], { cwd: './ClientApp' });
-    // this.spawnCommandSync('code', ['.']);
+    this.spawnCommandSync('npm', ['install'], { cwd: `${this.answers.appName}` });
+    this.spawnCommandSync('git', ['init'], { cwd: `${this.answers.appName}` });
+    this.spawnCommandSync('git', ['add', '.'], { cwd: `${this.answers.appName}` });
+    this.spawnCommandSync('git', ['commit', '-m', 'initial commit from Yeoman generator'], { cwd: `${this.answers.appName}` });
+    this.spawnCommandSync('code', ['.', '-g', 'README.md'], { cwd: `${this.answers.appName}` });
   }
 };

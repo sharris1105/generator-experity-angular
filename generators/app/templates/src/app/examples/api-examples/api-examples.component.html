@@ -1,0 +1,74 @@
+<article>
+    <section>
+        <header>
+            <h1 id='making-api-calls'>Making API Calls with HttpClient</h1>
+        </header>
+        <p>
+            Angular makes API calling pretty straightforward with the HttpClient. Below is a simple call to the
+            ApplicationAuthApi:
+            version info
+            from our ApplicationAuthAPI project below:
+        </p>
+        <div id="api-example">
+            <h4>Base Version: <label *ngIf=versionInfo>{{versionInfo.versionBase}}</label>
+            </h4>
+            <h4>Version: <label *ngIf=versionInfo>{{versionInfo.version}}</label>
+            </h4>
+            <button mat-raised-button (click)="onClick()">Get API Version Info</button>
+        </div>
+        <p>
+            To set up an API call, start by
+            generating a data access service for HttpClient requests. The ExampleDataService in this sample uses the
+            HttpClient
+            to make a call to the API's url:
+            with a method that calls the HttpClient with my API url.
+        </p>
+        <figure>
+            <img src="../../../assets/images/api-examples/api-call.png" alt="">
+        </figure>
+        <p>
+            Next, create a data model (e.g. VersionInfoModel) with properties matching the JSON that will be
+            returned in the HTTP response. The data service can now be called directly from the component and subscribe
+            to the observable results. This is done in the <code>onClick()</code> event handler which will call
+            the data service and put the results directly into the model.
+            <figure>
+                <img src="../../../assets/images/api-examples/service-call.png">
+            </figure>
+
+            You can read more about HttpClient calls in <a href="https://angular.io/guide/http"
+                target="_blank">Angular's
+                HttpClient documentation</a>.
+        </p>
+    </section>
+    <section>
+        <header>
+            <h3>Handling Errors</h3>
+        </header>
+        <p>
+            What happens if something goes wrong during the API call? In the above examples, we've implemented no error
+            handling, so any errors are silently logged to the console. Hit F12 to open DevTools, click on the "Console"
+            tab,
+            and try throwing an error:
+        </p>
+        <button class="bad-api-call" mat-raised-button (click)="badApiCall()">Bad API Call</button>
+        <p>
+            You should see a 404 (Not Found) error logged to the console along with the exception data. While this is
+            helpful
+            enough for a development scenario, silently logging the exception is a rather poor user experience. That
+            experience can be improved by using the <code>ErrorService</code> included in this template:
+        </p>
+        <figure>
+            <img src="../../../assets/images/api-examples/error-handling.png">
+        </figure>
+        <p>
+            This way, if an error is thrown, the <code>err</code> block will execute and call
+            <code>ErrorService.showError()</code>. Let's see how our error behaves now:
+        </p>
+        <button class="bad-api-call" mat-raised-button (click)="handledBadApiCall()">Bad API Call</button>
+        <p>
+            The browser still logs a 404 to the console, but the ugly error JSON is no longer output. More importantly,
+            we
+            notify the user that something has gone wrong and lay out some options for reacting to that error.
+        </p>
+    </section>
+</article>

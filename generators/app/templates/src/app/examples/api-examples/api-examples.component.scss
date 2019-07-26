@@ -1,0 +1,72 @@
+@import "../../../sass/variables.scss";
+
+:host {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+* {
+  line-height: 1.8rem;
+  color: #0c1327;
+}
+
+article {
+  flex-grow: 2;
+  flex-shrink: 2;
+  max-width: 50rem;
+}
+
+#api-example {
+  min-height: 150px;
+  width: 300px;
+  margin: 0px auto;
+}
+
+label {
+  display: inline-block;
+  padding: 0.1rem 0.3rem 0.15rem;
+  margin: 0 0.1rem;
+  background-color: hsl(224, 53%, 94%);
+  border: 1px solid hsl(224, 53%, 85%);
+  border-radius: 0.2rem;
+}
+
+code {
+  display: inline-block;
+  padding: 0.1rem 0.3rem 0.15rem;
+  margin: 0 0.1rem;
+
+  font-family: "Operator Mono", "Source Code Pro", Menlo, Consolas, Monaco, monospace;
+  line-height: 1.3rem;
+
+  color: #199a28;
+  background-color: hsl(224, 53%, 94%);
+  border: 1px solid hsl(224, 53%, 85%);
+  border-radius: 0.2rem;
+}
+
+img {
+  display: block;
+  margin: 50px auto;
+  border-radius: 6px;
+  box-shadow: 0px 3px 7px rgba(0, 0, 0, 0.3), 0px 0px 30px rgba(0, 0, 0, 0.08);
+}
+
+a {
+  color: $experity-blue;
+  text-decoration-color: $experity-green;
+  text-underline-position: under;
+}
+
+a:hover {
+  text-decoration-color: $experity-blue;
+}
+
+.bad-api-call {
+  display: block;
+  margin: 0 auto;
+}
