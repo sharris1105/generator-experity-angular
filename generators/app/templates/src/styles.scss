@@ -1,6 +1,7 @@
 @import "./sass/theme.scss";
+@import "./sass/buttons.scss";
 
-* {
+html {
   font-family: "Open Sans", "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
 
@@ -9,8 +10,6 @@ h1 {
 }
 
 main {
-  height: calc(100% - 300px); // 50px for nav, 300px for padding
-  padding: 150px 10vw;
-
+  height: 100%;
   display: block; // for whatever reason IE treats <main> elements as inline
 }

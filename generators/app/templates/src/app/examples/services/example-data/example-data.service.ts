@@ -1,7 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { VersionInfoModel } from '../../../models/version-info.model';
+import { VersionInfoModel } from '../../models/version-info.model';
 
 @Injectable({
   providedIn: 'root'
@@ -12,11 +11,15 @@ export class ExampleDataService {
 
   constructor(private readonly http: HttpClient) { }
 
-  getApiVersion(): Observable<VersionInfoModel> {
-    return this.http.get<VersionInfoModel>(`${this.apiBase}Info/GetVersionInfo`);
+  getApiVersion(): Promise<VersionInfoModel> {
+    return this.http
+      .get<VersionInfoModel>(`${this.apiBase}Info/GetVersionInfo`)
+      .toPromise();
   }
 
-  badApiCall(): Observable<any> {
-    return this.http.get('some-bad-url.com');
+  badApiCall(): Promise<any> {
+    return this.http
+      .get('some-bad-url.com')
+      .toPromise();
   }
 }

@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { MatButtonModule, MatButtonToggleModule, MatCardModule, MatCheckboxModule, MatIconModule, MatRadioModule, MatSlideToggleModule } from '@angular/material';
 import { UiExamplesComponent } from './ui-examples.component';
+
 
 describe('UiExamplesComponent', () => {
   let component: UiExamplesComponent;
@@ -8,9 +9,18 @@ describe('UiExamplesComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ UiExamplesComponent ]
+      imports: [
+        MatCardModule,
+        MatButtonModule,
+        MatButtonToggleModule,
+        MatIconModule,
+        MatCheckboxModule,
+        MatRadioModule,
+        MatSlideToggleModule
+      ],
+      declarations: [UiExamplesComponent]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {
@@ -22,4 +32,5 @@ describe('UiExamplesComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
 });

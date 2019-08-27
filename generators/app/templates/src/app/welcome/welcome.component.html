@@ -9,20 +9,24 @@
     <li><a href="#naming-conventions">Naming Conventions</a></li>
     <li><a href="#bundling">Bundling the Application</a></li>
     <li><a href="#adding-code">Adding Your Code</a></li>
+    <li><a href="#deleting-code">Deleting the Example Files</a></li>
     <li><a href="#next-steps">Next Steps</a></li>
   </ul>
 </aside>
 <article>
+  <header>
+    <h1>Welcome to your new Angular App! 🎉</h1>
+  </header>
   <section>
     <header>
       <h3 id='getting-started'>Getting Started</h3>
     </header>
     <p>
       The guts of this app live in the <code>~/src/app/</code> directory. You should see several items in that
-      folder. Right now, you're reading the contents of <code>read-me/read-me.component.html</code>, which itself
+      folder. Right now, you're reading the contents of <code>welcome/welcome.component.html</code>, which itself
       lives inside <code>home/home.component.html</code>. If you'd like to get developing right away, go ahead and
-      remove the <code>app-read-me</code> element from the home component. Then, create a new component with the
-      following command: <code [innerHTML]="generateCommand"></code>. Don't forget to delete the read-me component at
+      remove the <code>app-welcome</code> element from the home component. Then, create a new component with the
+      following command: <code [innerHTML]="generateCommand"></code>. Don't forget to delete the welcome component at
       some point! 😉
     </p>
     <p>
@@ -44,7 +48,7 @@
       debug configuration. Right now, that is "Launch dev build":
     </p>
     <figure>
-      <img src="../../assets/images/read-me/debug.PNG" alt="Debug launch configuration">
+      <img src="../../assets/images/welcome/debug.PNG" alt="Debug launch configuration">
     </figure>
     <p>
       You can also hit the green play button instead of typing F5 to launch the debugger. VSCode's debugger is
@@ -73,7 +77,7 @@
       Near the top of the file, you'll see the <code>"scripts": ...</code> element:
     </p>
     <figure>
-      <img src="../../assets/images/read-me/npm-scripts.png" alt="">
+      <img src="../../assets/images/welcome/npm-scripts.png" alt="">
     </figure>
     <p>
       These are convenience scripts for common tasks in the application. Little more than snippets, they can be executed
@@ -118,10 +122,10 @@
     </p>
     <p>
       Once running, the debugger behaves a lot like the Visual Studio debugger that you may be used to. Find
-      <code>read-me.component.ts</code> and place a breakpoint in the <code>ngOnInit()</code> method:
+      <code>welcome.component.ts</code> and place a breakpoint in the <code>ngOnInit()</code> method:
     </p>
     <figure>
-      <img src="../../assets/images/read-me/breakpoint.PNG" alt="Breakpoint in ngOnInit">
+      <img src="../../assets/images/welcome/breakpoint.PNG" alt="Breakpoint in ngOnInit">
     </figure>
     <p>
       Manually refresh your browser and you should hit your breakpoint. On the left pane, you'll see the usual debugger
@@ -210,7 +214,7 @@
       </li>
       <li>
         Follow the default Angular naming convention of <code>descriptor.function.extension</code>, e.g.
-        <code>read-me.component.html</code>, <code>active-provider-filter.pipe.ts</code>, etc.
+        <code>welcome.component.html</code>, <code>active-provider-filter.pipe.ts</code>, etc.
       </li>
       <li>
         Suffix references to observables with <code>$</code>, e.g. <code>selectedPractice$</code>
@@ -228,7 +232,7 @@
       to only show Javascript files. Assuming you're running the dev build, you should see something like this:
     </p>
     <figure>
-      <img src="../../assets/images/read-me/bundles.png" alt="App js bundles">
+      <img src="../../assets/images/welcome/bundles.png" alt="App js bundles">
     </figure>
     <p>
       Thus, we have four Javascript files that comprise our app. The contents of <code>runtime.js</code> and
@@ -251,7 +255,7 @@
       new:
     </p>
     <figure>
-      <img src="../../assets/images/read-me/lazy-load.png" alt="">
+      <img src="../../assets/images/welcome/lazy-load.png" alt="">
     </figure>
     <p>
       We have a fifth bundle! This highlights a crucial strategy to improve performance: the code for the UI Examples
@@ -277,13 +281,51 @@
   </section>
   <section>
     <header>
+      <h3 id='deleting-code'>Deleting the Example Files</h3>
+    </header>
+    <p>
+      The component you're reading right now, along with the entire Examples section of this app, should be checked into
+      source control. If you're worried about losing the examples and reference materials, fear not! This app is
+      deployed and can be accessed any time
+      <a href="https://devservices.practicevelocity.com/<%= appName %>">here</a>. The files highlighted here are what
+      need to be deleted:
+    </p>
+    <ul>
+      <li>app/examples</li>
+      <li>app/welcome (the folder containing this component)</li>
+      <li>assets/images/api-examples</li>
+      <li>assets/images/welcome</li>
+    </ul>
+    <figure>
+      <img src="../../assets/images/welcome/files-to-delete.png" alt="">
+    </figure>
+    <p>
+      Once the files are deleted, the references to those deleted files will also need to be removed. First, in
+      <code>app-routing.module.ts</code> the 'examples' path and edit the default '' path to show your component instead
+      of the <code>WelcomeComponent</code>:
+    </p>
+    <figure>
+      <img src="../../assets/images/welcome/routes-to-delete.png" alt="">
+    </figure>
+    <p>
+      After that, head to <code>app.module.ts</code> and delete lines 11, 18, 25, and 26:
+    </p>
+    <figure>
+      <img src="../../assets/images/welcome/imports-to-delete.png" alt="">
+    </figure>
+    <p>
+      ✨<em>Et voilà!</em> ✨ Your new app is officially off the ground! 🚀
+    </p>
+  </section>
+  <section>
+    <header>
       <h3 id='next-steps'>Next Steps</h3>
     </header>
     <p>
       Now that we've established how to run, debug, and add code to the app, head over to the examples page for more
       in-depth examples of adding functionality.
     </p>
-    <button id="examples" mat-raised-button color="primary">
+    <button routerLink='examples' id="examples" mat-raised-button color="primary">
       Examples <mat-icon inline=true>arrow_forward</mat-icon>
     </button>
   </section>

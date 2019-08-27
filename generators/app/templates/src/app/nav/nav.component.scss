@@ -28,10 +28,6 @@ ul {
   list-style: none;
 }
 
-li:nth-child(n + 3) {
-  border-bottom: 4px solid $experity-blue;
-}
-
 li {
   display: flex;
   justify-content: center;

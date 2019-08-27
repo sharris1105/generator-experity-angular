@@ -5,7 +5,7 @@ import { saveAs } from 'file-saver';
   providedIn: 'root'
 })
 export class FileDownloadService {
-  private fileType = 'text/plain;charset=utf-8';
+  private readonly fileType = 'text/plain;charset=utf-8';
 
   constructor() { }
 

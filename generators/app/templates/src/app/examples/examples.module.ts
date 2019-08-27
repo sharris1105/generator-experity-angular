@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { MatButtonModule, MatCardModule, MatCheckboxModule, MatIconModule } from '@angular/material';
+import { MatButtonModule, MatButtonToggleModule, MatCardModule, MatCheckboxModule, MatIconModule, MatRadioModule, MatSlideToggleModule } from '@angular/material';
 
 import { ApiExamplesComponent } from './api-examples/api-examples.component';
 import { ExamplesRoutingModule } from './examples-routing.module';
@@ -14,8 +14,11 @@ import { UiExamplesComponent } from './ui-examples/ui-examples.component';
     ExamplesRoutingModule,
     MatCardModule,
     MatButtonModule,
+    MatButtonToggleModule,
     MatIconModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    MatRadioModule,
+    MatSlideToggleModule
   ]
 })
 export class ExamplesModule { }

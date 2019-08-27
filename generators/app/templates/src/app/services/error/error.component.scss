@@ -4,10 +4,8 @@
 // ! I.E. ANY STYLES YOU PUT HERE WILL BE PUT IN THE GLOBAL STYLES
 // ! NAME THINGS CAREFULLY AND AS SPECIFICALLY AS POSSIBLE TO AVOID CONFLICTS
 
-//$theme: map-get(, $key: )
-
 .mat-snack-bar-container.error {
-  background-color: $danger; // theme.get(danger)
+  background-color: $warn;
   color: #fff;
   text-shadow: 0px 1px 3px #333333;
 }

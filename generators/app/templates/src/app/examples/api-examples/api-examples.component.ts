@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ErrorService } from 'src/app/services/error/error.service';
-import { VersionInfoModel } from '../../models/version-info.model';
+import { VersionInfoModel } from '../models/version-info.model';
 import { ExampleDataService } from '../services/example-data/example-data.service';
 
 @Component({
@@ -17,28 +17,28 @@ export class ApiExamplesComponent implements OnInit, OnDestroy {
     private readonly errorService: ErrorService
   ) { }
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void { }
 
   ngOnDestroy(): void { }
 
   onClick(): void {
     this.exampleDataService.getApiVersion()
-      .subscribe(result => {
-        this.versionInfo = result;
-      });
+      .then(
+        result => { this.versionInfo = result; },
+        err => { this.errorService.showError(err); }
+      );
   }
 
   badApiCall(): void {
     this.exampleDataService.badApiCall()
-      .subscribe(
+      .then(
         result => { /* do something with data on success */ }
       );
   }
 
   handledBadApiCall(): void {
     this.exampleDataService.badApiCall()
-      .subscribe(
+      .then(
         result => { /* do something with data on success */ },
         err => { this.errorService.showError(err); }
       );

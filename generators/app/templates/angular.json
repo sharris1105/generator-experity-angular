@@ -26,13 +26,13 @@
             "extractCss": true,
             "assets": [
               "src/favicon.ico",
-              "src/assets",
-              "src/manifest.webmanifest"
+              "src/assets"
             ],
             "styles": [
               "src/styles.scss"
             ],
-            "scripts": []
+            "scripts": [],
+            "es5BrowserSupport": true
           },
           "configurations": {
             "production": {
@@ -57,9 +57,7 @@
                   "maximumWarning": "2mb",
                   "maximumError": "5mb"
                 }
-              ],
-              "serviceWorker": true,
-              "ngswConfigPath": "ngsw-config.json"
+              ]
             }
           }
         },
@@ -87,10 +85,10 @@
             "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.spec.json",
             "karmaConfig": "karma.conf.js",
+            "codeCoverage": true,
             "assets": [
               "src/favicon.ico",
-              "src/assets",
-              "src/manifest.webmanifest"
+              "src/assets"
             ],
             "styles": [
               "src/styles.scss"
@@ -103,8 +101,7 @@
           "options": {
             "tsConfig": [
               "tsconfig.app.json",
-              "tsconfig.spec.json",
-              "e2e/tsconfig.json"
+              "tsconfig.spec.json"
             ],
             "exclude": [
               "**/node_modules/**"
@@ -120,43 +117,6 @@
           "configurations": {
             "production": {
               "devServerTarget": "<%= appName %>:serve:production"
-            }
-          }
-        },
-        "server": {
-          "builder": "@angular-devkit/build-angular:server",
-          "options": {
-            "outputPath": "dist/<%= appName %>-server",
-            "main": "src/main.server.ts",
-            "tsConfig": "tsconfig.server.json"
-          },
-          "configurations": {
-            "production": {
-              "fileReplacements": [
-                {
-                  "replace": "src/environments/environment.ts",
-                  "with": "src/environments/environment.prod.ts"
-                }
-              ],
-              "sourceMap": false,
-              "optimization": {
-                "scripts": false,
-                "styles": true
-              }
-            }
-          }
-        },
-        "app-shell": {
-          "builder": "@angular-devkit/build-angular:app-shell",
-          "options": {
-            "browserTarget": "<%= appName %>:build",
-            "serverTarget": "<%= appName %>:server",
-            "route": "shell"
-          },
-          "configurations": {
-            "production": {
-              "browserTarget": "<%= appName %>:build:production",
-              "serverTarget": "<%= appName %>:server:production"
             }
           }
         }

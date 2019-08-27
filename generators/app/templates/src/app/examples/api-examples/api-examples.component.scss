@@ -3,6 +3,8 @@
 :host {
   width: 100%;
   max-width: 1200px;
+  height: calc(100% - 300px); // 300px for padding
+  padding: 150px 10vw;
   margin: 0 auto;
   display: flex;
   flex-direction: row;
@@ -26,8 +28,7 @@ article {
   margin: 0px auto;
 }
 
-label {
-  display: inline-block;
+span {
   padding: 0.1rem 0.3rem 0.15rem;
   margin: 0 0.1rem;
   background-color: hsl(224, 53%, 94%);
@@ -51,6 +52,7 @@ code {
 
 img {
   display: block;
+  max-width: 100%;
   margin: 50px auto;
   border-radius: 6px;
   box-shadow: 0px 3px 7px rgba(0, 0, 0, 0.3), 0px 0px 30px rgba(0, 0, 0, 0.08);
