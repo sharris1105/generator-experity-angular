@@ -1,9 +1,16 @@
+using System.IO;
+using System.Security.Cryptography;
+using <%= namespaceName %>.Authorization;
+using <%= namespaceName %>.Extensions;
+using <%= namespaceName %>.Helper;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Tokens;
 
 namespace <%= namespaceName %>
 {
@@ -19,7 +26,10 @@ namespace <%= namespaceName %>
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.AddMvc()
+                .AddApplicationPart(typeof(Startup).Assembly)
+                .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+
             services.AddCors(options =>
             {
                 options.AddPolicy("DevCorsPolicy",
@@ -31,6 +41,57 @@ namespace <%= namespaceName %>
                         .Build()
                 );
             });
+
+            var appAuthConfig = StartUpHelper.GetEnvVariablesForAppAuthApi(Configuration);
+            services.AddSingleton(appAuthConfig);
+
+            var encryptionSettings = StartUpHelper.GetEncryptionSettings(Configuration);
+            services.AddSingleton(encryptionSettings);
+
+            var tokenSettings = StartUpHelper.GetTokenSettings(Configuration);
+            services.AddSingleton(tokenSettings);
+
+            ConfigureAuth(services, tokenSettings);
+
+
+            services.AddSingleton<IAppAuthClient, AppAuthClient>();
+            services.AddScoped<IAppAuthApiService, AppAuthApiService>();
+            services.AddScoped<ApiServiceHelper>();
+        }
+
+        private void ConfigureAuth(IServiceCollection services, JwtSettingsModel claimsModel)
+        {
+            services.AddAuthorization(auth =>
+            {
+                auth.AddPolicy("Bearer", new AuthorizationPolicyBuilder()
+                    .AddAuthenticationSchemes(JwtBearerDefaults.AuthenticationScheme)
+                    .RequireAuthenticatedUser().Build());
+            });
+
+            RSA publicRsa = RSA.Create();
+            var publicKey = Path.Combine(claimsModel.PublicKeyFilePath, claimsModel.PublicKeyFileName);
+            publicRsa.LoadPublicKey(publicKey);
+            var signingKey = new RsaSecurityKey(publicRsa);
+
+            services
+                .AddAuthentication(cfg =>
+                {
+                    cfg.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                    cfg.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                })
+                .AddJwtBearer(cfg =>
+                {
+                    cfg.RequireHttpsMetadata = false;
+                    cfg.SaveToken = true;
+                    cfg.TokenValidationParameters = new TokenValidationParameters()
+                    {
+                        ValidateIssuer = false,
+                        ValidateAudience = false,
+                        ValidateLifetime = true,
+                        ValidateIssuerSigningKey = true,
+                        IssuerSigningKey = signingKey
+                    };
+                });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

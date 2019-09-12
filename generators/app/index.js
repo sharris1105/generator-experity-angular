@@ -130,7 +130,7 @@ module.exports = class extends Generator {
   writing() {
     this.fs.copyTpl(
       this.templatePath('./app'),
-      this.destinationPath(`${this.answers.appName}/app`), {
+      this.destinationPath(`${this.answers.appName}`), {
         appName: this.answers.appName
       }
     );
@@ -138,7 +138,7 @@ module.exports = class extends Generator {
     // Copy all dotfiles
     this.fs.copy(
       this.templatePath('./app/.*'),
-      this.destinationPath(`${this.answers.appName}/app`), {
+      this.destinationPath(`${this.answers.appName}`), {
         appName: this.answers.appName
       }
     );
@@ -146,7 +146,7 @@ module.exports = class extends Generator {
     // For some reason, the .vscode files don't copy unless you do it explicitly. Probably user error but code below works
     this.fs.copy(
       this.templatePath('./app/.vscode/'),
-      this.destinationPath(`${this.answers.appName}/app/.vscode/`)
+      this.destinationPath(`${this.answers.appName}/.vscode/`)
     );
 
     this.fs.copyTpl(
@@ -164,10 +164,17 @@ module.exports = class extends Generator {
     );
 
     this.fs.copyTpl(
-      this.templatePath('./csproj/angular-template.csproj'),
+      this.templatePath('./vs/angular-template.csproj'),
       this.destinationPath(`${this.answers.appName}/api/${this.formattedNamespaceName}.csproj`), {
         namespaceName: this.formattedNamespaceName
       }
+    );
+
+    this.fs.copyTpl(
+      this.templatePath('./vs/angular-template.sln'),
+      this.destinationPath(`${this.answers.appName}/api/${this.formattedNamespaceName}.sln`), {
+      namespaceName: this.formattedNamespaceName
+    }
     );
 
     this.fs.copyTpl(
@@ -198,7 +205,7 @@ module.exports = class extends Generator {
       cwd: `${this.answers.appName}/api`
     });
     this.spawnCommandSync('npm', ['install'], {
-      cwd: `${this.answers.appName}/app`
+      cwd: `${this.answers.appName}`
     });
     this.spawnCommandSync('git', ['init'], {
       cwd: `${this.answers.appName}`
@@ -209,7 +216,7 @@ module.exports = class extends Generator {
     this.spawnCommandSync('git', ['commit', '-m', 'initial commit from Yeoman generator'], {
       cwd: `${this.answers.appName}`
     });
-    this.spawnCommandSync('code', ['./app', '-g', 'README.md'], {
+    this.spawnCommandSync('code', ['.', '-g', 'README.md'], {
       cwd: `${this.answers.appName}`
     });
   }

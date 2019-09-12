@@ -1,4 +1,4 @@
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { MatButtonModule, MatIconModule } from '@angular/material';
 import { BrowserModule } from '@angular/platform-browser';
@@ -8,8 +8,12 @@ import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { AuthGuard } from './guards/auth.guard';
 import { NavComponent } from './nav/nav.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+import { AuthDataService } from './services/auth/auth-data-service';
+import { AuthService } from './services/auth/auth.service';
+import { JwtInterceptorService } from './services/jwt-interceptor/jwt-interceptor';
 import { ServicesModule } from './services/services.module';
 import { WelcomeComponent } from './welcome/welcome.component';
 
@@ -33,6 +37,12 @@ import { WelcomeComponent } from './welcome/welcome.component';
   ],
   exports: [
     NavComponent
+  ],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptorService, multi: true },
+    AuthService,
+    AuthDataService,
+    AuthGuard
   ],
   bootstrap: [AppComponent]
 })
