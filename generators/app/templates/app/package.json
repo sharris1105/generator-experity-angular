@@ -4,7 +4,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve -o",
-    "start:local": "concurrently \"ng serve -o -c local\" \"dotnet run watch -p ./../api\"",
+    "start:local": "concurrently \"ng serve -o -c local\" \"dotnet run watch -p ./api\"",
     "start:prod": "ng run <%= appName %>:app-shell && http-server -c-1 ./dist/<%= appName %> -p 4200 -o",
     "serve": "ng serve",
     "serve:local": "ng serve -o -c local",
