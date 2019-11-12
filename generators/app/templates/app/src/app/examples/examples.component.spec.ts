@@ -1,8 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { MatCardModule } from '@angular/material';
+import { MatCardModule } from '@angular/material/card';
 import { RouterTestingModule } from '@angular/router/testing';
 import { ExamplesComponent } from './examples.component';
-
 
 describe('ExamplesComponent', () => {
   let component: ExamplesComponent;

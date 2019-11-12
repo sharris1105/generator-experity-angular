@@ -1,7 +1,6 @@
 import { async, TestBed } from '@angular/core/testing';
-import { MatSnackBarModule } from '@angular/material';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { RouterTestingModule } from '@angular/router/testing';
-import { ServiceWorkerModule } from '@angular/service-worker';
 import { AppComponent } from './app.component';
 import { NavComponent } from './nav/nav.component';
 
@@ -10,7 +9,6 @@ describe('AppComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         RouterTestingModule,
-        ServiceWorkerModule.register('', { enabled: false }),
         MatSnackBarModule
       ],
       declarations: [

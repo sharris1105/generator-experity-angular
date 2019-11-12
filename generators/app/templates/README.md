@@ -1,4 +1,4 @@
-# <%= namespaceName %>
+# <%= appName %>
 
 Welcome! If you're viewing this readme in VS Code, you can start the app by hitting F5. From there, further documentation within the app will guide you through building the app, making api calls, our UI standards, and more.
 

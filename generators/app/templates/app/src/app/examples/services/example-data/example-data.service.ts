@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Constants } from '../../../constants';
+import { Constants } from '../../../../environments/constants';
 import { VersionInfoModel } from '../../models/version-info.model';
 
 @Injectable({
@@ -13,7 +13,7 @@ export class ExampleDataService {
 
   getApiVersion(): Promise<VersionInfoModel> {
     return this.http
-      .get<VersionInfoModel>(`${Constants.API_PATH_BASE}Info/GetVersionInfo`)
+      .get<VersionInfoModel>(`${Constants.FACE_SHEET_API_PATH_BASE}Info/Version`) // TODO: change to feature api path base
       .toPromise();
   }
 

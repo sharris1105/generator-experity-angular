@@ -7,7 +7,8 @@ module.exports = class extends Generator {
   constructor(args, opts) {
     // Calling the super constructor is important so our generator is correctly set up
     super(args, opts);
-    let formattedNamespaceName = "";
+    let formattedYamlDashedName = "";
+    let formattedYamlPathBaseName = "";
 
     // ! THESE HELPER FUNCTIONS MUST BE DEFINED IN THE CONSTRUCTOR
     // ! Yeoman treats everything outside of the constructor as a runtime task
@@ -91,21 +92,24 @@ module.exports = class extends Generator {
       return appName.toLowerCase();
     }
 
-    this.formatNamespaceName = function (appName) {
-      let namespaceName = appName;
+    this.formatYamlDashedName = function (appName) {
+      let yamlDashedName = appName;
 
-      if (namespaceName.endsWith('--ui')) {
-        namespaceName = namespaceName.substring(0, namespaceName.length - 4);
+      if (yamlDashedName.endsWith('--ui')) {
+        formattedYamlDashedName = yamlDashedName.substring(0, yamlDashedName.length - 4) + '-ui';
       }
 
-      // * lifted from https://coderwall.com/p/iprsng/convert-snake-case-to-camelcase
-      namespaceName = namespaceName.replace(/(\-\w)/g, function (m) {
-        return m[1].toUpperCase();
-      });
+      return formattedYamlDashedName;
+    }
 
-      namespaceName = namespaceName[0].toUpperCase() + namespaceName.substring(1);
+    this.formatYamlPathBaseName = function (appName) {
+      let yamlPathBaseName = appName.toLowerCase();
 
-      return namespaceName;
+      if (yamlPathBaseName.endsWith('--ui')) {
+        formattedYamlPathBaseName = yamlPathBaseName.substring(0, yamlPathBaseName.length - 4) + 'ui';
+      }
+
+      return formattedYamlPathBaseName;
     }
 
     // ! end helper functions
@@ -122,7 +126,8 @@ module.exports = class extends Generator {
       formattingOk = await this.isFormattingOk(formattedAppName);
     } while (!formattingOk);
 
-    this.formattedNamespaceName = this.formatNamespaceName(formattedAppName);
+    this.formattedYamlDashedName = this.formatYamlDashedName(formattedAppName);
+    this.formattedPathBaseName = this.formatYamlPathBaseName(formattedAppName);
 
     this.answers.appName = formattedAppName;
   }
@@ -131,16 +136,16 @@ module.exports = class extends Generator {
     this.fs.copyTpl(
       this.templatePath('./app'),
       this.destinationPath(`${this.answers.appName}`), {
-        appName: this.answers.appName
-      }
+      appName: this.answers.appName
+    }
     );
 
     // Copy all dotfiles
     this.fs.copy(
       this.templatePath('./app/.*'),
       this.destinationPath(`${this.answers.appName}`), {
-        appName: this.answers.appName
-      }
+      appName: this.answers.appName
+    }
     );
 
     // For some reason, the .vscode files don't copy unless you do it explicitly. Probably user error but code below works
@@ -150,32 +155,11 @@ module.exports = class extends Generator {
     );
 
     this.fs.copyTpl(
-      this.templatePath('./api'),
-      this.destinationPath(`${this.answers.appName}/api`), {
-        namespaceName: this.formattedNamespaceName
-      });
-
-    // Copy all dotfiles
-    this.fs.copy(
-      this.templatePath('./api/.*'),
-      this.destinationPath(`${this.answers.appName}/api`), {
-        namespaceName: this.formattedNamespaceName
-      }
-    );
-
-    this.fs.copyTpl(
-      this.templatePath('./vs/angular-template.csproj'),
-      this.destinationPath(`${this.answers.appName}/api/${this.formattedNamespaceName}.csproj`), {
-        namespaceName: this.formattedNamespaceName
-      }
-    );
-
-    this.fs.copyTpl(
-      this.templatePath('./vs/angular-template.sln'),
-      this.destinationPath(`${this.answers.appName}/api/${this.formattedNamespaceName}.sln`), {
-      namespaceName: this.formattedNamespaceName
-    }
-    );
+      this.templatePath('./app/.build'),
+      this.destinationPath(`${this.answers.appName}/.build`), {
+      dashedName: this.formattedYamlDashedName,
+      pathBaseName: this.formattedPathBaseName
+    });
 
     this.fs.copyTpl(
       this.templatePath('./Dockerfile'),
@@ -185,8 +169,8 @@ module.exports = class extends Generator {
     this.fs.copyTpl(
       this.templatePath('./README.md'),
       this.destinationPath(`${this.answers.appName}/README.md`), {
-        namespaceName: this.formattedNamespaceName
-      }
+      appName: this.answers.appName
+    }
     );
 
     this.fs.copyTpl(
@@ -195,25 +179,13 @@ module.exports = class extends Generator {
     );
 
     this.fs.copy(
-      this.templatePath('./.github/'),
+      this.templatePath('./app/.github/'),
       this.destinationPath(`${this.answers.appName}/.github/`)
     );
   }
 
   install() {
-    this.spawnCommandSync('dotnet', ['build'], {
-      cwd: `${this.answers.appName}/api`
-    });
     this.spawnCommandSync('npm', ['install'], {
-      cwd: `${this.answers.appName}`
-    });
-    this.spawnCommandSync('git', ['init'], {
-      cwd: `${this.answers.appName}`
-    });
-    this.spawnCommandSync('git', ['add', '.'], {
-      cwd: `${this.answers.appName}`
-    });
-    this.spawnCommandSync('git', ['commit', '-m', 'initial commit from Yeoman generator'], {
       cwd: `${this.answers.appName}`
     });
     this.spawnCommandSync('code', ['.', '-g', 'README.md'], {

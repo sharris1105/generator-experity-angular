@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ErrorService } from 'src/app/services/error/error.service';
+import { ErrorService } from '../../services/error/error.service';
 import { VersionInfoModel } from '../models/version-info.model';
 import { ExampleDataService } from '../services/example-data/example-data.service';
 

@@ -4,7 +4,7 @@
     // * lifted from https://github.com/Microsoft/vscode-recipes/tree/master/Angular-CLI
     {
       "type": "npm",
-      "script": "serve",
+      "script": "serve:local",
       "isBackground": true,
       "presentation": {
         "focus": true,

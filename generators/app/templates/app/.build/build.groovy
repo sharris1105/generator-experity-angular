@@ -1,0 +1,1 @@
+standardPipeline(".build/project.yaml")

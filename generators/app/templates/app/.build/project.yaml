@@ -1,0 +1,50 @@
+build:
+  image: "<%= dashedName %>"
+  versionPrefix: "1.0"
+#  apiVersion: "1.0"
+  dockerArguments: ""
+  dockerPath: "."
+  
+unitTest:
+  seleniumUrl: "http://localhost"
+  seleniumTag: ""
+  
+helm:
+  chart:
+    appVersion: "1.0"
+    description: A Helm chart for Kubernetes
+    name: <%= dashedName %>
+
+  values:
+    image:
+      repository: hub.pvops.com/dev/<%= dashedName %>
+
+    env:
+      PathBase: "/<%= pathBaseName %>"
+      TimeOutMinutes: "1440"
+      EncryptionPublicKeyFileName: "EncryptionPublicKey"
+      EncryptionPublicKeyFilePath: "/var/secret"
+      SigningPublicKeyFileName: "SigningPublicKey"
+      SigningPublicKeyFilePath: "/var/secret"
+
+    envSecrets:
+      DbUserId: "<%= dashedName %>-credentials"
+      DbPassword: "<%= dashedName %>-credentials"
+      Secret: "<%= dashedName %>-credentials"
+      EncryptionPublicKey: "<%= dashedName %>-credentials"
+      SigningPublicKey: "<%= dashedName %>-credentials"
+
+    envConfigurations:
+      AppAuthApiBaseAddress: "<%= dashedName %>-credentials"
+      <%= pathBaseName %>BaseAddress: "<%= dashedName %>-credentials"
+
+    mountSecret:
+      - <%= dashedName %>-credentials
+
+    ingress:
+      enabled: true
+      annotations:
+        nginx.ingress.kubernetes.io/session-cookie-name: "<%= pathBaseName %>"
+        nginx.ingress.kubernetes.io/add-base-url: "true"
+
+      path: /<%= pathBaseName %>

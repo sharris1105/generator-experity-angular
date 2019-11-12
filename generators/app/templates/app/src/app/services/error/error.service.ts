@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { MatSnackBar } from '@angular/material';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { ErrorComponent } from './error.component';
 
 @Injectable({
@@ -13,14 +13,14 @@ export class ErrorService {
   showError(e: Error, messageToShow: string = 'A system error occurred.'): void {
     this.snackBar.openFromComponent(
       ErrorComponent, {
-        data: {
-          message: messageToShow,
-          error: e
-        },
-        panelClass: 'error',
-        verticalPosition: 'bottom',
-        horizontalPosition: 'center'
-      }
+      data: {
+        message: messageToShow,
+        error: e
+      },
+      panelClass: 'error',
+      verticalPosition: 'bottom',
+      horizontalPosition: 'center'
+    }
     );
   }
 }

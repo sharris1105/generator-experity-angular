@@ -5,7 +5,6 @@ import { ExamplesComponent } from './examples.component';
 import { StateManagementExamplesComponent } from './state-management-examples/state-management-examples.component';
 import { UiExamplesComponent } from './ui-examples/ui-examples.component';
 
-
 const routes: Routes = [
   { path: '', component: ExamplesComponent },
   { path: 'ui', component: UiExamplesComponent },

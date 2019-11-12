@@ -1,11 +1,12 @@
 import { Component, Inject, ViewEncapsulation } from '@angular/core';
-import { MAT_SNACK_BAR_DATA, MatSnackBarRef } from '@angular/material';
+import { MAT_SNACK_BAR_DATA, MatSnackBarRef } from '@angular/material/snack-bar';
 import { FileDownloadService } from '../file-download/file-download.service';
 
 @Component({
   selector: 'app-error',
   templateUrl: './error.component.html',
   styleUrls: ['./error.component.scss'],
+  // tslint:disable-next-line:use-component-view-encapsulation
   encapsulation: ViewEncapsulation.None // * unfortunately need this to style the snackbar container
 })
 export class ErrorComponent {

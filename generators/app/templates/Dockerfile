@@ -16,10 +16,11 @@ RUN ng test --watch=false
 
 RUN ng build --prod --output-path=/app
 COPY run.sh /app
+COPY .build/nginx.conf /app
 
 ###
 # release
-FROM nginx:1.17-alpine
+FROM hub.pvops.com/prod/nginx:1.17-alpine
 
 ARG ASPNETCORE_ENVIRONMENT
 ENV ASPNETCORE_ENVIRONMENT "${ASPNETCORE_ENVIRONMENT}"
@@ -31,6 +32,7 @@ WORKDIR /usr/share/nginx/html
 
 COPY --from=build /app/run.sh /app/run.sh
 COPY --from=build /app .
+COPY --from=build /app/nginx.conf /etc/nginx/conf.d/default.conf
 
 ARG APP_VERSION
 RUN echo $APP_VERSION > version.txt

@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { UpdateService } from './services/update/update.service';
 
 @Component({
   selector: 'app-root',
@@ -8,9 +7,7 @@ import { UpdateService } from './services/update/update.service';
 })
 export class AppComponent implements OnInit {
 
-  constructor(private readonly updateService: UpdateService) { }
+  constructor() { }
 
-  ngOnInit(): void {
-    this.updateService.register();
-  }
+  ngOnInit(): void { }
 }
